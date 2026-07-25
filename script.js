@@ -90,13 +90,42 @@ function renderPrograms(programs) {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const program = programs.find(p => p.id === btn.dataset.copy);
-      navigator.clipboard.writeText(program.code).then(() => {
+      copyToClipboard(program.code).then(() => {
         const original = btn.textContent;
         btn.textContent = "Copied!";
+        toast("Code copied to clipboard");
         setTimeout(() => (btn.textContent = original), 1200);
+      }).catch(err => {
+        console.error("Copy failed", err);
+        btn.textContent = "Error";
+        setTimeout(() => (btn.textContent = "Copy"), 1200);
       });
     });
   });
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  } else {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((resolve, reject) => {
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) resolve(); else reject(new Error("execCommand returned false"));
+      } catch (err) {
+        reject(err);
+      }
+      textArea.remove();
+    });
+  }
 }
 
 function renderStats(programs) {
@@ -115,8 +144,21 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAll();
 
   const search = document.getElementById("searchInput");
-  search.addEventListener("input", (e) => {
-    query = e.target.value;
+  const clearBtn = document.getElementById("clearSearchBtn");
+
+  function updateSearch(val) {
+    query = val;
+    search.value = val;
+    clearBtn.style.display = val ? "inline-flex" : "none";
     renderPrograms(getAllPrograms());
+  }
+
+  search.addEventListener("input", (e) => {
+    updateSearch(e.target.value);
+  });
+
+  clearBtn.addEventListener("click", () => {
+    updateSearch("");
+    search.focus();
   });
 });
