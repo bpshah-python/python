@@ -19,11 +19,13 @@ function isLoggedIn() {
 function renderLogin() {
   document.getElementById("loginView").style.display = "block";
   document.getElementById("panelView").style.display = "none";
+  document.getElementById("logoutBtn").style.display = "none";
 }
 
 function renderPanel() {
   document.getElementById("loginView").style.display = "none";
   document.getElementById("panelView").style.display = "block";
+  document.getElementById("logoutBtn").style.display = "inline-flex";
   renderCategoryOptions();
   renderList();
 }
