@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Python Lab Exercises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="dot">&gt;_</span> python<span style="color:var(--accent)">lab</span><span class="brand-sub">exercises</span></a>
+  <div class="topbar-links">
+    <a class="btn btn-ghost" href="index.html">← Back to site</a>
+    <button class="btn btn-ghost" id="logoutBtn" style="display:none">Log out</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<div id="loginView" class="login-box" style="display:none">
+  <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+  <h1>Admin access</h1>
+  <p>Enter the admin password to add or manage exercises.</p>
+  <form id="loginForm" class="field">
+    <input type="password" id="passwordInput" placeholder="Password" autofocus>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:12px;" type="submit">Enter</button>
+  </form>
+</div>
+
+<!-- PANEL -->
+<div id="panelView" class="admin-wrap" style="display:none">
+  <div class="admin-header">
+    <h1>Manage exercises</h1>
+    <p><span id="countBuiltin">0</span> built-in · <span id="countCustom">0</span> added by you</p>
+  </div>
+
+  <div class="panel">
+    <h2 id="formTitle">Add a new program</h2>
+    <form id="programForm">
+      <div class="field">
+        <label for="fTitle">Title</label>
+        <input type="text" id="fTitle" placeholder="e.g. Check if a number is prime" required>
+      </div>
+      <div class="field">
+        <label for="fDesc">Exercise description</label>
+        <input type="text" id="fDesc" placeholder="e.g. Write a Python program to check if a number is prime." required>
+      </div>
+      <div class="field">
+        <label for="fCategory">Topic</label>
+        <select id="fCategory"></select>
+        <div id="newCategoryWrap" style="display:none; margin-top:8px;">
+          <input type="text" id="fNewCategory" placeholder="New topic name">
+        </div>
+      </div>
+      <div class="field">
+        <label for="fCode">Solution code</label>
+        <textarea id="fCode" placeholder="print(&quot;Hello, World!&quot;)" required spellcheck="false"></textarea>
+        <div class="field-hint">Paste the full Python solution exactly as it should appear on the site.</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-primary" id="submitBtn" type="submit">Add program</button>
+        <button class="btn btn-ghost" id="cancelEdit" type="button" style="display:none">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>All exercises</h2>
+    <div class="admin-list" id="adminList"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Make additions permanent for every visitor</h2>
+    <p class="field-hint">Programs you add are saved only in this browser. To publish them to the live site for everyone, export them and add the contents into <code>DEFAULT_PROGRAMS</code> in <code>data.js</code>, then redeploy.</p>
+    <div style="display:flex; gap:10px; margin-top:12px; flex-wrap: wrap;">
+      <button class="btn" id="exportBtn" type="button">Export added programs (.json)</button>
+      <label class="btn" style="cursor:pointer;">
+        Import .json
+        <input type="file" id="importInput" accept="application/json" style="display:none">
+      </label>
+    </div>
+    <div class="helper-note">Importing merges programs from a file into this browser's saved list — handy for moving your work to another computer.</div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

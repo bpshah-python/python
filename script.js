@@ -1,181 +1,122 @@
-const programData = {
-    beginner: [
-        {
-            title: "Hello World",
-            description: "The traditional starter program to print text output to the screen.",
-            code: `print("Hello, World!")`
-        },
-        {
-            title: "Check Prime Number",
-            description: "A script utilizing basic loops and conditions to verify if an input number is prime.",
-            code: `def is_prime(num):
-    if num <= 1:
-        return False
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
-            return False
-    return True
+// script.js — powers index.html
 
-number = 29
-print(f"Is {number} prime?", is_prime(number))`
-        }
-    ],
-    intermediate: [
-        {
-            title: "List Comprehension",
-            description: "Transforming and filtering data lists compactly using pythonic syntax.",
-            code: `# Filter even squares from a range
-even_squares = [x**2 for x in range(10) if x % 2 == 0]
-print("Even squares:", even_squares)`
-        },
-        {
-            title: "File Read & Write",
-            description: "Safely opening, writing, and processing text data using context managers.",
-            code: `with open("example.txt", "w") as file:
-    file.write("Python is versatile.\\nLearning everyday.")
+let activeCategory = "All";
+let query = "";
 
-with open("example.txt", "r") as file:
-    for line in file:
-        print(line.strip().upper())`
-        }
-    ],
-    advanced: [
-        {
-            title: "Custom Context Manager",
-            description: "Creating custom context workflows using classes with __enter__ and __exit__ magic methods.",
-            code: `class DatabaseConnection:
-    def __init__(self, db_name):
-        self.db_name = db_name
-
-    def __enter__(self):
-        print(f"Connecting to database: {self.db_name}")
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Closing database connection smoothly.")
-        if exc_type:
-            print(f"An error occurred: {exc_val}")
-        return True  # Suppresses exception if handled
-
-with DatabaseConnection("MainServer") as db:
-    print("Executing dynamic queries...")`
-        }
-    ]
-};
-
-// DOM refs
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebar-overlay');
-const programList = document.getElementById('program-list');
-const viewerEmpty = document.getElementById('viewer-empty');
-const viewer = document.getElementById('viewer');
-const programTitle = document.getElementById('program-title');
-const programDesc = document.getElementById('program-desc');
-const codeBlock = document.getElementById('code-block');
-const lineNumbers = document.getElementById('line-numbers');
-const copyBtn = document.getElementById('copy-btn');
-const breadcrumbLevel = document.getElementById('breadcrumb-level');
-const breadcrumbTitle = document.getElementById('breadcrumb-title');
-const mobileLevelBadge = document.getElementById('mobile-level-badge');
-const levelBtns = document.querySelectorAll('.level-btn');
-
-let currentLevel = 'beginner';
-
-// Sidebar toggle (mobile)
-function openSidebar() {
-    sidebar.classList.add('open');
-    overlay.classList.add('visible');
-}
-function closeSidebar() {
-    sidebar.classList.remove('open');
-    overlay.classList.remove('visible');
+function categoriesFrom(programs) {
+  const cats = {};
+  programs.forEach(p => { cats[p.category] = (cats[p.category] || 0) + 1; });
+  return cats;
 }
 
-menuToggle.addEventListener('click', () => {
-    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-});
-overlay.addEventListener('click', closeSidebar);
+function renderSidebar(programs) {
+  const cats = categoriesFrom(programs);
+  const list = document.getElementById("filterList");
+  const entries = [["All", programs.length], ...Object.entries(cats).sort()];
 
-// Render line numbers
-function renderLineNumbers(code) {
-    const lines = code.split('\n').length;
-    lineNumbers.innerHTML = Array.from({ length: lines }, (_, i) => i + 1).join('<br>');
-}
+  list.innerHTML = entries.map(([name, count]) => `
+    <li>
+      <button class="${name === activeCategory ? "active" : ""}" data-cat="${escapeHtml(name)}">
+        <span>${escapeHtml(name)}</span>
+        <span class="count">${count}</span>
+      </button>
+    </li>
+  `).join("");
 
-// Display selected program
-function displayCode(program) {
-    viewerEmpty.style.display = 'none';
-    viewer.style.display = 'flex';
-
-    programTitle.textContent = program.title;
-    programDesc.textContent = program.description;
-    codeBlock.textContent = program.code;
-    breadcrumbLevel.textContent = currentLevel;
-    breadcrumbTitle.textContent = program.title;
-
-    renderLineNumbers(program.code);
-
-    // Reset copy button
-    copyBtn.textContent = 'Copy';
-    copyBtn.classList.remove('copied');
-    copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
-        <path d="M2 10V2.5A.5.5 0 012.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-    </svg> Copy`;
-}
-
-// Render sidebar list
-function renderProgramList(level) {
-    programList.innerHTML = '';
-    const programs = programData[level];
-
-    programs.forEach((program, index) => {
-        const li = document.createElement('li');
-        li.classList.add('program-item');
-        if (index === 0) li.classList.add('active');
-        li.textContent = program.title;
-
-        li.addEventListener('click', () => {
-            document.querySelectorAll('.program-item').forEach(i => i.classList.remove('active'));
-            li.classList.add('active');
-            displayCode(program);
-            closeSidebar(); // close on mobile after selection
-        });
-
-        programList.appendChild(li);
+  list.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeCategory = btn.dataset.cat;
+      renderAll();
     });
-
-    if (programs.length > 0) displayCode(programs[0]);
+  });
 }
 
-// Level switcher
-levelBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        levelBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentLevel = btn.getAttribute('data-level');
-        mobileLevelBadge.textContent = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
-        renderProgramList(currentLevel);
+function matches(program) {
+  const inCat = activeCategory === "All" || program.category === activeCategory;
+  if (!inCat) return false;
+  if (!query.trim()) return true;
+  const q = query.toLowerCase();
+  return (
+    program.title.toLowerCase().includes(q) ||
+    program.description.toLowerCase().includes(q) ||
+    program.category.toLowerCase().includes(q)
+  );
+}
+
+function fileNameFor(program) {
+  const slug = program.title.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+  return `ex${program.num}_${slug}.py`;
+}
+
+function renderPrograms(programs) {
+  const wrap = document.getElementById("programList");
+  const filtered = programs.filter(matches);
+
+  if (!filtered.length) {
+    wrap.innerHTML = `<div class="empty-state">No exercises match your search.</div>`;
+    return;
+  }
+
+  wrap.innerHTML = filtered.map(p => `
+    <div class="card" id="card-${p.id}">
+      <div class="card-head" data-toggle="${p.id}">
+        <span class="card-num">${String(p.num).padStart(2, "0")}</span>
+        <div class="card-titles">
+          <div class="card-title">${escapeHtml(p.title)}</div>
+          <div class="card-desc">${escapeHtml(p.description)}</div>
+        </div>
+        <span class="card-tag">${escapeHtml(p.category)}</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="code-window">
+          <div class="code-window-bar">
+            <span class="code-window-name">${escapeHtml(fileNameFor(p))}</span>
+            <button class="copy-btn" data-copy="${p.id}">Copy</button>
+          </div>
+          <pre class="code"><code>${highlightPython(p.code)}</code></pre>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  wrap.querySelectorAll("[data-toggle]").forEach(head => {
+    head.addEventListener("click", () => {
+      document.getElementById(`card-${head.dataset.toggle}`).classList.toggle("open");
     });
-});
+  });
 
-// Copy to clipboard
-copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(codeBlock.textContent).then(() => {
-        copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg> Copied!`;
-        copyBtn.classList.add('copied');
-        setTimeout(() => {
-            copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M2 10V2.5A.5.5 0 012.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            </svg> Copy`;
-            copyBtn.classList.remove('copied');
-        }, 2000);
-    }).catch(err => console.error('Copy failed:', err));
-});
+  wrap.querySelectorAll("[data-copy]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const program = programs.find(p => p.id === btn.dataset.copy);
+      navigator.clipboard.writeText(program.code).then(() => {
+        const original = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = original), 1200);
+      });
+    });
+  });
+}
 
-// Init
-renderProgramList(currentLevel);
+function renderStats(programs) {
+  document.getElementById("statTotal").textContent = programs.length;
+  document.getElementById("statCats").textContent = Object.keys(categoriesFrom(programs)).length;
+}
+
+function renderAll() {
+  const programs = getAllPrograms();
+  renderSidebar(programs);
+  renderPrograms(programs);
+  renderStats(programs);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderAll();
+
+  const search = document.getElementById("searchInput");
+  search.addEventListener("input", (e) => {
+    query = e.target.value;
+    renderPrograms(getAllPrograms());
+  });
+});
