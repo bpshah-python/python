@@ -11,10 +11,11 @@ function categoriesFrom(programs) {
 
 function renderSidebar(programs) {
   const cats = categoriesFrom(programs);
-  const list = document.getElementById("filterList");
+  const listDesktop = document.getElementById("filterList");
+  const listMobile = document.getElementById("filterListMobile");
   const entries = [["All", programs.length], ...Object.entries(cats).sort()];
 
-  list.innerHTML = entries.map(([name, count]) => `
+  const html = entries.map(([name, count]) => `
     <li>
       <button class="${name === activeCategory ? "active" : ""}" data-cat="${escapeHtml(name)}">
         <span>${escapeHtml(name)}</span>
@@ -23,12 +24,26 @@ function renderSidebar(programs) {
     </li>
   `).join("");
 
-  list.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      activeCategory = btn.dataset.cat;
-      renderAll();
+  if (listDesktop) {
+    listDesktop.innerHTML = html;
+    listDesktop.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeCategory = btn.dataset.cat;
+        renderAll();
+      });
     });
-  });
+  }
+
+  if (listMobile) {
+    listMobile.innerHTML = html;
+    listMobile.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeCategory = btn.dataset.cat;
+        closeTopicsSheet();
+        renderAll();
+      });
+    });
+  }
 }
 
 function matches(program) {
@@ -140,9 +155,23 @@ function renderAll() {
   renderStats(programs);
 }
 
+// Topics Bottom Sheet Toggle Helpers
+function openTopicsSheet() {
+  document.getElementById("topicsSheet").classList.add("active");
+  document.getElementById("topicsSheetOverlay").classList.add("active");
+  document.body.style.overflow = "hidden"; // Prevent background scroll
+}
+
+function closeTopicsSheet() {
+  document.getElementById("topicsSheet").classList.remove("active");
+  document.getElementById("topicsSheetOverlay").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderAll();
 
+  // Search input listeners
   const search = document.getElementById("searchInput");
   const clearBtn = document.getElementById("clearSearchBtn");
 
@@ -153,12 +182,56 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPrograms(getAllPrograms());
   }
 
-  search.addEventListener("input", (e) => {
-    updateSearch(e.target.value);
-  });
+  if (search) {
+    search.addEventListener("input", (e) => {
+      updateSearch(e.target.value);
+    });
+  }
 
-  clearBtn.addEventListener("click", () => {
-    updateSearch("");
-    search.focus();
-  });
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      updateSearch("");
+      search.focus();
+    });
+  }
+
+  // Bottom Nav & Sheet Event Listeners
+  const navHomeBtn = document.getElementById("navHomeBtn");
+  const navTopicsBtn = document.getElementById("navTopicsBtn");
+  const closeTopicsBtn = document.getElementById("closeTopicsBtn");
+  const topicsSheetOverlay = document.getElementById("topicsSheetOverlay");
+
+  if (navHomeBtn) {
+    navHomeBtn.addEventListener("click", () => {
+      activeCategory = "All";
+      updateSearch("");
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      // Update active nav button
+      document.querySelectorAll(".bottom-nav-item").forEach(el => el.classList.remove("active"));
+      navHomeBtn.classList.add("active");
+    });
+  }
+
+  if (navTopicsBtn) {
+    navTopicsBtn.addEventListener("click", () => {
+      openTopicsSheet();
+    });
+  }
+
+  if (closeTopicsBtn) {
+    closeTopicsBtn.addEventListener("click", closeTopicsSheet);
+  }
+
+  if (topicsSheetOverlay) {
+    topicsSheetOverlay.addEventListener("click", closeTopicsSheet);
+  }
+
+  // Handle redirect from admin/other pages that want to open topics sheet directly
+  if (new URLSearchParams(window.location.search).get("openTopics") === "true") {
+    openTopicsSheet();
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  }
 });

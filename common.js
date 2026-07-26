@@ -75,7 +75,7 @@ function highlightPython(code) {
       .replace(/§NUM§/g, '<span class="tok-num">').replace(/§\/NUM§/g, "</span>");
 
     if (comment) comment = `<span class="tok-com">${comment}</span>`;
-    return code + comment;
+    return `<span class="code-line">${code + comment}</span>`;
   });
 
   return lines.join("\n");

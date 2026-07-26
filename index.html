@@ -6,7 +6,8 @@
 <title>Python Lab Exercises</title>
 <meta name="description" content="A collection of Python lab exercises with runnable solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
@@ -14,7 +15,13 @@
 <header class="topbar">
   <a class="brand" href="index.html"><span class="dot">&gt;_</span> python<span style="color:var(--accent)">lab</span><span class="brand-sub">exercises</span></a>
   <div class="topbar-links">
-    <a class="btn btn-ghost" href="admin.html">Admin</a>
+    <a class="btn btn-ghost" href="admin.html">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      Admin Panel
+    </a>
   </div>
 </header>
 
@@ -39,7 +46,7 @@
 <main class="layout">
   <aside class="sidebar">
     <div class="search-box">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <input id="searchInput" type="text" placeholder="Search exercises…">
       <button id="clearSearchBtn" class="clear-btn" style="display:none;" aria-label="Clear search">×</button>
     </div>
@@ -53,6 +60,46 @@
 <footer>
   Built for the Lab Exercise sheet · <a class="admin-link" href="admin.html">Admin panel →</a>
 </footer>
+
+<!-- Bottom Navigation Bar for Mobile -->
+<nav class="bottom-nav">
+  <button class="bottom-nav-item active" id="navHomeBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="4 17 10 11 4 5"></polyline>
+      <line x1="12" y1="19" x2="20" y2="19"></line>
+    </svg>
+    <span>Exercises</span>
+  </button>
+  <button class="bottom-nav-item" id="navTopicsBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <span>Topics</span>
+  </button>
+  <a class="bottom-nav-item" href="admin.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+    <span>Admin</span>
+  </a>
+</nav>
+
+<!-- Topics Bottom Sheet Modal for Mobile -->
+<div class="bottom-sheet-overlay" id="topicsSheetOverlay"></div>
+<div class="bottom-sheet" id="topicsSheet">
+  <div class="bottom-sheet-drag-handle"></div>
+  <div class="bottom-sheet-header">
+    <span class="bottom-sheet-title">Filter by Topic</span>
+    <button class="bottom-sheet-close" id="closeTopicsBtn" aria-label="Close">×</button>
+  </div>
+  <div class="bottom-sheet-body">
+    <ul class="filter-list" id="filterListMobile"></ul>
+  </div>
+</div>
 
 <script src="data.js?v=2"></script>
 <script src="common.js?v=2"></script>
