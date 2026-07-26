@@ -318,5 +318,13 @@ if cleaned == cleaned[::-1]:
     print(f'"{text}" is a palindrome')
 else:
     print(f'"{text}" is not a palindrome')`
+  },
+  {
+    "id": "cms1madiv24waw",
+    "num": 24,
+    "title": "Check if a number is positive, negative or neutral",
+    "description": "Write a Python program to input a number and check if the number is positive, negative or neutral.",
+    "code": "n = float(input(\"Enter a number: \"))\nif n<0:\n    print(f\"{n} is a negative number\")\nelif n>0:\n    print(f\"{n} is a positive number\")\nelse:\n    print(f\"{n} is a neutral number\")",
+    "category": "Conditionals"
   }
 ];
