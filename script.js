@@ -87,7 +87,6 @@ function renderPrograms(programs) {
         <div class="code-window">
           <div class="code-window-bar">
             <span class="code-window-name">${escapeHtml(fileNameFor(p))}</span>
-            <button class="copy-btn" data-copy="${p.id}">Copy</button>
           </div>
           <pre class="code"><code>${highlightPython(p.code)}</code></pre>
         </div>
@@ -100,48 +99,8 @@ function renderPrograms(programs) {
       document.getElementById(`card-${head.dataset.toggle}`).classList.toggle("open");
     });
   });
-
-  wrap.querySelectorAll("[data-copy]").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const program = programs.find(p => p.id === btn.dataset.copy);
-      copyToClipboard(program.code).then(() => {
-        const original = btn.textContent;
-        btn.textContent = "Copied!";
-        toast("Code copied to clipboard");
-        setTimeout(() => (btn.textContent = original), 1200);
-      }).catch(err => {
-        console.error("Copy failed", err);
-        btn.textContent = "Error";
-        setTimeout(() => (btn.textContent = "Copy"), 1200);
-      });
-    });
-  });
 }
 
-function copyToClipboard(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.left = "-999999px";
-    textArea.style.top = "-999999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    return new Promise((resolve, reject) => {
-      try {
-        const successful = document.execCommand('copy');
-        if (successful) resolve(); else reject(new Error("execCommand returned false"));
-      } catch (err) {
-        reject(err);
-      }
-      textArea.remove();
-    });
-  }
-}
 
 function renderStats(programs) {
   document.getElementById("statTotal").textContent = programs.length;
@@ -234,4 +193,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const newUrl = window.location.pathname;
     window.history.replaceState({}, document.title, newUrl);
   }
+
+  // Prevent copying in any way
+  document.addEventListener('contextmenu', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    e.preventDefault();
+  });
+
+  document.addEventListener('copy', e => {
+    if (window.getSelection().anchorNode && 
+        (window.getSelection().anchorNode.parentNode.tagName === 'INPUT' || 
+         window.getSelection().anchorNode.parentNode.tagName === 'TEXTAREA' ||
+         window.getSelection().anchorNode.tagName === 'INPUT' ||
+         window.getSelection().anchorNode.tagName === 'TEXTAREA')) {
+      return;
+    }
+    e.preventDefault();
+    toast("Copying is disabled on this site!");
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    // Ctrl+C / Cmd+C
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+      e.preventDefault();
+      toast("Copying is disabled!");
+    }
+    // Ctrl+U / Cmd+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
+      e.preventDefault();
+    }
+    // F12 (Inspect Element)
+    if (e.key === 'F12') {
+      e.preventDefault();
+    }
+  });
 });
