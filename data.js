@@ -326,5 +326,388 @@ else:
     "description": "Write a Python program to input a number and check if the number is positive, negative or neutral.",
     "code": "n = float(input(\"Enter a number: \"))\nif n<0:\n    print(f\"{n} is a negative number\")\nelif n>0:\n    print(f\"{n} is a positive number\")\nelse:\n    print(f\"{n} is a neutral number\")",
     "category": "Conditionals"
+  },
+  {
+    id: "d25",
+    num: 25,
+    title: 'Print "Hello, World!"',
+    description: "Write a Python program to print \"Hello, World!\" using a user defined function.",
+    category: "User-defined Function",
+    code: `def greet():
+    print("Hello, World!")
+
+greet()`
+  },
+  {
+    id: "d26",
+    num: 26,
+    title: "Celsius to Fahrenheit",
+    description: "Write a Python program to convert a temperature from Celsius to Fahrenheit using a user defined function.",
+    category: "User-defined Function",
+    code: `def celsius_to_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+celsius = float(input("Enter temperature in Celsius: "))
+fahrenheit = celsius_to_fahrenheit(celsius)
+print(f"{celsius}°C is equal to {fahrenheit}°F")`
+  },
+  {
+    id: "d27",
+    num: 27,
+    title: "Name and Age with f-strings",
+    description: "Write a Python program using f-strings inside user defined a function to display a person's details.",
+    category: "User-defined Function",
+    code: `def display_person_info(name, age):
+    print(f"My name is {name} and I am {age} years old.")
+
+display_person_info("Aarav", 21)`
+  },
+  {
+    id: "d28",
+    num: 28,
+    title: "Uppercase and Lowercase",
+    description: "Write a Python program to convert a given string to uppercase and lowercase using a user defined function.",
+    category: "User-defined Function",
+    code: `def print_case_conversions(text):
+    print("Uppercase:", text.upper())
+    print("Lowercase:", text.lower())
+
+print_case_conversions("Hello Python")`
+  },
+  {
+    id: "d29",
+    num: 29,
+    title: "Even or Odd",
+    description: "Write a Python program to check if a number is even or odd using a user defined function.",
+    category: "User-defined Function",
+    code: `def is_even(number):
+    return number % 2 == 0
+
+num = int(input("Enter a number: "))
+if is_even(num):
+    print(f"{num} is even")
+else:
+    print(f"{num} is odd")`
+  },
+  {
+    id: "d30",
+    num: 30,
+    title: "Greatest Among n Numbers",
+    description: "Write a Python program to find the greatest number among a list of numbers using a user defined function.",
+    category: "User-defined Function",
+    code: `def find_greatest(numbers):
+    greatest = numbers[0]
+    for value in numbers:
+        if value > greatest:
+            greatest = value
+    return greatest
+
+n = int(input("How many numbers? "))
+nums = []
+for i in range(n):
+    nums.append(float(input(f"Enter number {i+1}: ")))
+
+print(f"The greatest number is {find_greatest(nums)}")`
+  },
+  {
+    id: "d31",
+    num: 31,
+    title: "Print 1 to 10 (for loop)",
+    description: "Write a Python program using a user defined function to print numbers from 1 to a given limit.",
+    category: "User-defined Function",
+    code: `def print_numbers(limit):
+    for i in range(1, limit + 1):
+        print(i)
+
+print_numbers(10)`
+  },
+  {
+    id: "d32",
+    num: 32,
+    title: "Even Numbers 1 to 100",
+    description: "Write a Python program using a user defined function to print all even numbers up to a specified limit.",
+    category: "User-defined Function",
+    code: `def print_even_numbers(limit):
+    for i in range(2, limit + 1, 2):
+        print(i)
+
+print_even_numbers(100)`
+  },
+  {
+    id: "d33",
+    num: 33,
+    title: "Sum of Odd Numbers 1 to 50",
+    description: "Write a Python program to compute the sum of all odd numbers up to a given limit using a while loop in a user defined function.",
+    category: "User-defined Function",
+    code: `def sum_of_odds(limit):
+    num = 1
+    total = 0
+    while num <= limit:
+        if num % 2 != 0:
+            total += num
+        num += 1
+    return total
+
+limit_val = 50
+print(f"Sum of odd numbers from 1 to {limit_val} is {sum_of_odds(limit_val)}")`
+  },
+  {
+    id: "d34",
+    num: 34,
+    title: "Multiplication Table",
+    description: "Write a Python program to print the multiplication table of a given number using user defined function.",
+    category: "User-defined Function",
+    code: `def print_multiplication_table(num, steps=10):
+    for i in range(1, steps + 1):
+        print(f"{num} x {i} = {num * i}")
+
+number = int(input("Enter a number: "))
+print_multiplication_table(number)`
+  },
+  {
+    id: "d35",
+    num: 35,
+    title: "Factorial of a Number",
+    description: "Write a Python program to calculate the factorial of a number using user defined function.",
+    category: "User-defined Function",
+    code: `def calculate_factorial(num):
+    if num < 0:
+        return None
+    factorial = 1
+    for i in range(1, num + 1):
+        factorial *= i
+    return factorial
+
+num = int(input("Enter a number: "))
+result = calculate_factorial(num)
+
+if result is None:
+    print("Factorial does not exist for negative numbers")
+else:
+    print(f"The factorial of {num} is {result}")`
+  },
+  {
+    id: "d36",
+    num: 36,
+    title: "Reverse of a Number",
+    description: "Write a Python program to reverse a given integer using user defined function.",
+    category: "User-defined Function",
+    code: `def reverse_number(num):
+    reversed_num = 0
+    n = abs(num)
+    while n > 0:
+        digit = n % 10
+        reversed_num = reversed_num * 10 + digit
+        n //= 10
+    return -reversed_num if num < 0 else reversed_num
+
+num = int(input("Enter a number: "))
+print(f"Reversed number: {reverse_number(num)}")`
+  },
+  {
+    id: "d37",
+    num: 37,
+    title: "Fibonacci Series",
+    description: "Write a Python program to print the Fibonacci series up to n terms using user defined function.",
+    category: "User-defined Function",
+    code: `def generate_fibonacci(terms):
+    a, b = 0, 1
+    series = []
+    for _ in range(terms):
+        series.append(a)
+        a, b = b, a + b
+    return series
+
+n = int(input("How many terms? "))
+print("Fibonacci Series:")
+print(*generate_fibonacci(n))`
+  },
+  {
+    id: "d38",
+    num: 38,
+    title: "Armstrong Number",
+    description: "Write a Python program to check whether a given number is an Armstrong number using user defined function.",
+    category: "User-defined Function",
+    code: `def is_armstrong(num):
+    digits = str(num)
+    power = len(digits)
+    total = sum(int(d) ** power for d in digits)
+    return total == num
+
+num = int(input("Enter a number: "))
+if is_armstrong(num):
+    print(f"{num} is an Armstrong number")
+else:
+    print(f"{num} is not an Armstrong number")`
+  },
+  {
+    id: "d39",
+    num: 39,
+    title: "Sum of Digits",
+    description: "Write a Python program to compute the sum of the digits of a given number using user defined function.",
+    category: "User-defined Function",
+    code: `def sum_of_digits(num):
+    total = 0
+    n = abs(num)
+    while n > 0:
+        total += n % 10
+        n //= 10
+    return total
+
+num = int(input("Enter a number: "))
+print(f"Sum of digits: {sum_of_digits(num)}")`
+  },
+  {
+    id: "d40",
+    num: 40,
+    title: "Sum of List Elements",
+    description: "Write a Python program to calculate the total sum of elements in a list using user defined function.",
+    category: "User-defined Function",
+    code: `def sum_list(numbers):
+    total = 0
+    for value in numbers:
+        total += value
+    return total
+
+numbers = [12, 5, 8, 21, 34, 3]
+print(f"List: {numbers}")
+print(f"Sum of elements: {sum_list(numbers)}")`
+  },
+  {
+    id: "d41",
+    num: 41,
+    title: "Max and Min in a List",
+    description: "Write a Python program that finds and returns both maximum and minimum values in a list using user defined function.",
+    category: "User-defined Function",
+    code: `def find_min_max(numbers):
+    maximum = numbers[0]
+    minimum = numbers[0]
+    for value in numbers:
+        if value > maximum:
+            maximum = value
+        if value < minimum:
+            minimum = value
+    return minimum, maximum
+
+numbers = [12, 5, 8, 21, 34, 3]
+minimum, maximum = find_min_max(numbers)
+
+print(f"List: {numbers}")
+print(f"Maximum: {maximum}")
+print(f"Minimum: {minimum}")`
+  },
+  {
+    id: "d42",
+    num: 42,
+    title: "Remove Duplicates from a List",
+    description: "Write a Python program to remove duplicate elements from a list while preserving order using user defined function.",
+    category: "User-defined Function",
+    code: `def remove_duplicates(lst):
+    unique_items = []
+    for value in lst:
+        if value not in unique_items:
+            unique_items.append(value)
+    return unique_items
+
+numbers = [1, 2, 2, 3, 4, 4, 5, 1]
+print(f"Original list: {numbers}")
+print(f"List without duplicates: {remove_duplicates(numbers)}")`
+  },
+  {
+    id: "d43",
+    num: 43,
+    title: "Create and Print a Dictionary",
+    description: "Write a Python program to build and display a student dictionary using user defined function.",
+    category: "User-defined Function",
+    code: `def create_student(name, age, course):
+    student = {
+        "name": name,
+        "age": age,
+        "course": course
+    }
+    return student
+
+def print_dictionary(data):
+    for key, value in data.items():
+        print(f"{key}: {value}")
+
+student_info = create_student("Priya", 20, "Computer Science")
+print("Student dictionary:")
+print_dictionary(student_info)`
+  },
+  {
+    id: "d44",
+    num: 44,
+    title: "Reverse a String",
+    description: "Write a Python program to return the reverse of a string using user defined function.",
+    category: "User-defined Function",
+    code: `def reverse_string(text):
+    return text[::-1]
+
+text = "Python"
+print(f"Original: {text}")
+print(f"Reversed: {reverse_string(text)}")`
+  },
+  {
+    id: "d45",
+    num: 45,
+    title: "Count Vowels in a String",
+    description: "Write a Python program to count and return the number of vowels in a string using user defined function.",
+    category: "User-defined Function",
+    code: `def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    count = 0
+    for char in text:
+        if char in vowels:
+            count += 1
+    return count
+
+input_text = input("Enter a string: ")
+print(f"Number of vowels: {count_vowels(input_text)}")`
+  },
+  {
+    id: "d46",
+    num: 46,
+    title: "Length of a String",
+    description: "Write a Python program to calculate the length of a string using user defined function.",
+    category: "User-defined Function",
+    code: `def get_string_length(text):
+    return len(text)
+
+text = input("Enter a string: ")
+print(f"Length of the string: {get_string_length(text)}")`
+  },
+  {
+    id: "d47",
+    num: 47,
+    title: "Check Palindrome",
+    description: "Write a Python program to check if a given string is a palindrome using user defined function.",
+    category: "User-defined Function",
+    code: `def is_palindrome(text):
+    cleaned = text.replace(" ", "").lower()
+    return cleaned == cleaned[::-1]
+
+text = input("Enter a string: ")
+if is_palindrome(text):
+    print(f'"{text}" is a palindrome')
+else:
+    print(f'"{text}" is not a palindrome')`
+  },
+  {
+    id: "d48",
+    num: 48,
+    title: "Check if a number is positive, negative or neutral",
+    description: "Write a Python program to input a number and check if the number is positive, negative or neutral using a user defined function.",
+    category: "User-defined Function",
+    code: `def check_number_sign(num):
+    if num < 0:
+        return f"{num} is a negative number"
+    elif num > 0:
+        return f"{num} is a positive number"
+    else:
+        return f"{num} is a neutral number"
+
+n = float(input("Enter a number: "))
+print(check_number_sign(n))`
   }
 ];
