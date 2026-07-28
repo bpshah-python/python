@@ -335,7 +335,6 @@ else:
     category: "User-defined Function",
     code: `def greet():
     print("Hello, World!")
-
 greet()`
   },
   {
@@ -346,7 +345,6 @@ greet()`
     category: "User-defined Function",
     code: `def celsius_to_fahrenheit(celsius):
     return (celsius * 9/5) + 32
-
 celsius = float(input("Enter temperature in Celsius: "))
 fahrenheit = celsius_to_fahrenheit(celsius)
 print(f"{celsius}°C is equal to {fahrenheit}°F")`
@@ -359,7 +357,6 @@ print(f"{celsius}°C is equal to {fahrenheit}°F")`
     category: "User-defined Function",
     code: `def display_person_info(name, age):
     print(f"My name is {name} and I am {age} years old.")
-
 display_person_info("Aarav", 21)`
   },
   {
@@ -371,7 +368,6 @@ display_person_info("Aarav", 21)`
     code: `def print_case_conversions(text):
     print("Uppercase:", text.upper())
     print("Lowercase:", text.lower())
-
 print_case_conversions("Hello Python")`
   },
   {
@@ -382,7 +378,6 @@ print_case_conversions("Hello Python")`
     category: "User-defined Function",
     code: `def is_even(number):
     return number % 2 == 0
-
 num = int(input("Enter a number: "))
 if is_even(num):
     print(f"{num} is even")
@@ -401,7 +396,6 @@ else:
         if value > greatest:
             greatest = value
     return greatest
-
 n = int(input("How many numbers? "))
 nums = []
 for i in range(n):
@@ -418,7 +412,6 @@ print(f"The greatest number is {find_greatest(nums)}")`
     code: `def print_numbers(limit):
     for i in range(1, limit + 1):
         print(i)
-
 print_numbers(10)`
   },
   {
@@ -430,7 +423,6 @@ print_numbers(10)`
     code: `def print_even_numbers(limit):
     for i in range(2, limit + 1, 2):
         print(i)
-
 print_even_numbers(100)`
   },
   {
@@ -447,7 +439,6 @@ print_even_numbers(100)`
             total += num
         num += 1
     return total
-
 limit_val = 50
 print(f"Sum of odd numbers from 1 to {limit_val} is {sum_of_odds(limit_val)}")`
   },
@@ -460,7 +451,6 @@ print(f"Sum of odd numbers from 1 to {limit_val} is {sum_of_odds(limit_val)}")`
     code: `def print_multiplication_table(num, steps=10):
     for i in range(1, steps + 1):
         print(f"{num} x {i} = {num * i}")
-
 number = int(input("Enter a number: "))
 print_multiplication_table(number)`
   },
@@ -477,10 +467,8 @@ print_multiplication_table(number)`
     for i in range(1, num + 1):
         factorial *= i
     return factorial
-
 num = int(input("Enter a number: "))
 result = calculate_factorial(num)
-
 if result is None:
     print("Factorial does not exist for negative numbers")
 else:
@@ -500,7 +488,6 @@ else:
         reversed_num = reversed_num * 10 + digit
         n //= 10
     return -reversed_num if num < 0 else reversed_num
-
 num = int(input("Enter a number: "))
 print(f"Reversed number: {reverse_number(num)}")`
   },
@@ -517,7 +504,6 @@ print(f"Reversed number: {reverse_number(num)}")`
         series.append(a)
         a, b = b, a + b
     return series
-
 n = int(input("How many terms? "))
 print("Fibonacci Series:")
 print(*generate_fibonacci(n))`
@@ -533,7 +519,6 @@ print(*generate_fibonacci(n))`
     power = len(digits)
     total = sum(int(d) ** power for d in digits)
     return total == num
-
 num = int(input("Enter a number: "))
 if is_armstrong(num):
     print(f"{num} is an Armstrong number")
@@ -553,7 +538,6 @@ else:
         total += n % 10
         n //= 10
     return total
-
 num = int(input("Enter a number: "))
 print(f"Sum of digits: {sum_of_digits(num)}")`
   },
@@ -568,7 +552,6 @@ print(f"Sum of digits: {sum_of_digits(num)}")`
     for value in numbers:
         total += value
     return total
-
 numbers = [12, 5, 8, 21, 34, 3]
 print(f"List: {numbers}")
 print(f"Sum of elements: {sum_list(numbers)}")`
@@ -588,10 +571,8 @@ print(f"Sum of elements: {sum_list(numbers)}")`
         if value < minimum:
             minimum = value
     return minimum, maximum
-
 numbers = [12, 5, 8, 21, 34, 3]
 minimum, maximum = find_min_max(numbers)
-
 print(f"List: {numbers}")
 print(f"Maximum: {maximum}")
 print(f"Minimum: {minimum}")`
@@ -608,7 +589,6 @@ print(f"Minimum: {minimum}")`
         if value not in unique_items:
             unique_items.append(value)
     return unique_items
-
 numbers = [1, 2, 2, 3, 4, 4, 5, 1]
 print(f"Original list: {numbers}")
 print(f"List without duplicates: {remove_duplicates(numbers)}")`
@@ -630,7 +610,6 @@ print(f"List without duplicates: {remove_duplicates(numbers)}")`
 def print_dictionary(data):
     for key, value in data.items():
         print(f"{key}: {value}")
-
 student_info = create_student("Priya", 20, "Computer Science")
 print("Student dictionary:")
 print_dictionary(student_info)`
@@ -643,7 +622,6 @@ print_dictionary(student_info)`
     category: "User-defined Function",
     code: `def reverse_string(text):
     return text[::-1]
-
 text = "Python"
 print(f"Original: {text}")
 print(f"Reversed: {reverse_string(text)}")`
@@ -661,7 +639,6 @@ print(f"Reversed: {reverse_string(text)}")`
         if char in vowels:
             count += 1
     return count
-
 input_text = input("Enter a string: ")
 print(f"Number of vowels: {count_vowels(input_text)}")`
   },
@@ -673,7 +650,6 @@ print(f"Number of vowels: {count_vowels(input_text)}")`
     category: "User-defined Function",
     code: `def get_string_length(text):
     return len(text)
-
 text = input("Enter a string: ")
 print(f"Length of the string: {get_string_length(text)}")`
   },
@@ -686,7 +662,6 @@ print(f"Length of the string: {get_string_length(text)}")`
     code: `def is_palindrome(text):
     cleaned = text.replace(" ", "").lower()
     return cleaned == cleaned[::-1]
-
 text = input("Enter a string: ")
 if is_palindrome(text):
     print(f'"{text}" is a palindrome')
@@ -706,7 +681,6 @@ else:
         return f"{num} is a positive number"
     else:
         return f"{num} is a neutral number"
-
 n = float(input("Enter a number: "))
 print(check_number_sign(n))`
   }
