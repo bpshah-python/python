@@ -320,7 +320,7 @@ else:
     print(f'"{text}" is not a palindrome')`
   },
   {
-    "id": "cms1madiv24waw",
+    "id": "d24",
     "num": 24,
     "title": "Check if a number is positive, negative or neutral",
     "description": "Write a Python program to input a number and check if the number is positive, negative or neutral.",
