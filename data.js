@@ -683,5 +683,21 @@ else:
         return f"{num} is a neutral number"
 n = float(input("Enter a number: "))
 print(check_number_sign(n))`
+  },
+  {
+    id: "d49",
+    num: 49,
+    title: "Check greater between two number",
+    description: "Write a Python program to input two number and check greater between them using a user defined function.",
+    category: "User-defined Function",
+    code: `def is_greater(a,b):
+    if a>b:
+        greater = a
+    else:
+        greater = b
+    return greater
+n1 = float(input("Enter first number: "))
+n2 = float(input("Enter second number: "))
+print(f"The greater number is {is_greater(n1,n2)}")`
   }
 ];
