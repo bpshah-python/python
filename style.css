@@ -45,6 +45,15 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   height: 100%;
@@ -67,7 +76,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  padding-bottom: 76px; /* Space for bottom nav on mobile */
+  padding-bottom: calc(76px + env(safe-area-inset-bottom)); /* Space for bottom nav on mobile */
 }
 
 @media (min-width: 768px) {
@@ -460,6 +469,15 @@ a {
   color: var(--blue);
 }
 
+/* Tablet layout — keep the sidebar but give it less room */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    padding: 20px 20px 60px;
+  }
+}
+
 /* Mobile responsive layout */
 @media (max-width: 767px) {
   .layout {
@@ -469,6 +487,36 @@ a {
   }
   .sidebar {
     display: none; /* Hide desktop sidebar */
+  }
+}
+
+/* Small phones — tighten up header, hero and card copy further */
+@media (max-width: 380px) {
+  .topbar {
+    padding: 12px 14px;
+  }
+  .brand {
+    font-size: 17px;
+    gap: 8px;
+  }
+  .brand-sub {
+    font-size: 11px;
+    padding-left: 8px;
+  }
+  .hero {
+    padding: 12px 12px 8px;
+  }
+  .terminal-body {
+    padding: 14px 16px;
+  }
+  .terminal-body h1 {
+    font-size: 21px;
+  }
+  .stats-row {
+    gap: 20px;
+  }
+  .card-tag {
+    margin-left: 0;
   }
 }
 
@@ -540,6 +588,7 @@ a {
   font-size: 16px;
   color: var(--text);
   letter-spacing: -0.1px;
+  overflow-wrap: break-word;
 }
 .card-desc {
   font-size: 13.5px;
@@ -685,6 +734,7 @@ pre.code {
   margin: 0;
   padding: 16px 0; /* Horizontal padding goes to code-line */
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   font-family: var(--font-mono);
   font-size: 13.5px;
   line-height: 1.6;
@@ -771,13 +821,13 @@ footer a.admin-link:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: calc(64px + env(safe-area-inset-bottom));
   background: rgba(8, 12, 26, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   z-index: 50;
-  padding: 6px 12px;
+  padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
   justify-content: space-around;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
 }
@@ -901,6 +951,8 @@ footer a.admin-link:hover {
 .bottom-sheet-body {
   padding: 20px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   flex-grow: 1;
 }
 .bottom-sheet-body .filter-list button {
@@ -1126,7 +1178,7 @@ footer a.admin-link:hover {
 
 .toast {
   position: fixed;
-  bottom: 84px; /* Sits above bottom nav on mobile */
+  bottom: calc(84px + env(safe-area-inset-bottom)); /* Sits above bottom nav on mobile */
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: #0d1527;
@@ -1171,5 +1223,20 @@ footer a.admin-link:hover {
   .admin-row .actions {
     width: 100%;
     justify-content: flex-end;
+  }
+}
+
+/* ---------- Mobile form-input tweak ----------
+   iOS Safari auto-zooms the page when a focused input's font-size is
+   under 16px. The controls below were set smaller for desktop; bump
+   them to 16px only on small screens so tapping a field doesn't
+   trigger an unwanted zoom. */
+@media (max-width: 767px) {
+  .search-box input,
+  .field input[type="text"],
+  .field input[type="password"],
+  .field textarea,
+  .field select {
+    font-size: 16px;
   }
 }
